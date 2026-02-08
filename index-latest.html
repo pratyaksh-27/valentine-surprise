@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            --primary-color: #a4161a;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --shadow-hard: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            background: #fff0f3;
+            background-image: radial-gradient(circle at 50% 50%, #fff0f3 0%, #ffe6e9 100%);
+            color: #2b2d42;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. INTRO OVERLAY --- */
+        #music-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 99999;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+        
+        #music-overlay h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-align: center;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        
+        .pulse-btn {
+            padding: 15px 40px;
+            background: var(--primary-color);
+            border: 2px solid white;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(164, 22, 26, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- 2. MAIN CONTENT --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            padding-top: 20px;
+            line-height: 1.3;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            font-size: 2rem;
+            color: var(--primary-color);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {transform: translateY(0);}
+            50% {transform: translateY(-20px);}
+        }
+
+        /* MEMORY LANE */
+        .memory-lane {
+            padding: 100px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .memory {
+            display: flex;
+            align-items: center;
+            margin-bottom: 120px;
+            gap: 50px;
+        }
+
+        .memory:nth-child(even) { flex-direction: row-reverse; }
+
+        .photo-frame {
+            width: 300px;
+            padding: 15px 15px 50px 15px;
+            background: white;
+            box-shadow: var(--shadow-hard);
+            transform: rotate(-3deg);
+            transition: all 0.5s ease;
+            flex-shrink: 0; /* Prevents squishing */
+        }
+        
+        .photo-frame:hover { transform: scale(1.02) rotate(0deg); z-index: 10; }
+        .photo-frame img { width: 100%; height: 350px; object-fit: cover; filter: sepia(10%); }
+
+        .text-content {
+            flex: 1;
+            background: var(--glass-bg);
+            padding: 40px;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .text-content h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            padding-top: 10px;
+            line-height: 1.2;
+        }
+
+        /* FINAL QUESTION */
+        .final-question {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+        
+        #typewriter-text {
+            padding-top: 20px;
+            line-height: 1.4;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            min-height: 100px;
+            flex-wrap: wrap; /* Helps on very small screens */
+        }
+
+        button {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            white-space: nowrap;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #a4161a, #e5383b);
+            color: white;
+            box-shadow: 0 10px 25px rgba(164, 22, 26, 0.4);
+        }
+
+        .no-btn {
+            background: white;
+            color: #2b2d42;
+            border: 1px solid #ddd;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .shake-anim { animation: shake 0.4s ease-in-out; background-color: #fff5f5 !important; color: #a4161a !important; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px) rotate(-5deg); }
+            75% { transform: translateX(10px) rotate(5deg); }
+        }
+
+        /* --- 3. SUCCESS OVERLAY --- */
+        #success-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2147483647; 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #success-overlay.visible {
+            display: flex; 
+            opacity: 1;    
+        }
+
+        .ticket-container {
+            transform: translateY(100px);
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #success-overlay.visible .ticket-container { transform: translateY(0); }
+
+        .ticket {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            width: 600px;
+            height: 250px;
+            border-radius: 20px;
+            display: flex;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, #d4af37, #f6e27a, #d4af37);
+        }
+
+        .ticket-left { flex: 2; padding: 30px; border-right: 2px dashed #ccc; }
+        .ticket-left h2 { 
+            font-family: 'Great Vibes', cursive; 
+            font-size: 3rem; 
+            color: #a4161a; 
+            margin-bottom: 10px;
+            padding-top: 10px;
+            line-height: 1.2; 
+        }
+        .ticket-details p { font-size: 1.1rem; margin: 8px 0; color: #555; }
+        .ticket-details span { font-weight: bold; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; margin-right: 10px; }
+
+        .ticket-right { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f8f8f8; }
+        .barcode { width: 100px; height: 60px; background: repeating-linear-gradient(90deg, #333, #333 2px, transparent 2px, transparent 4px); margin-bottom: 10px; }
+
+        /* FLOATING HEARTS */
+        .floating-hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .floating-hearts span { position: absolute; bottom: -50px; font-size: 2rem; animation: floatUp 15s linear infinite; opacity: 0; }
+        .floating-hearts span:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-hearts span:nth-child(2) { left: 20%; animation-delay: 4s; font-size: 1.5rem; }
+        .floating-hearts span:nth-child(3) { left: 50%; animation-delay: 8s; font-size: 2.5rem; }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+        
+        /* TIMER */
+        .timer-container { margin-top: 20px; background: rgba(255, 255, 255, 0.5); padding: 15px 30px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.8); }
+        #timer { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold; color: #a4161a; }
+
+        /* --- MOBILE RESPONSIVENESS FIX --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3.5rem; }
+            
+            /* Stack Memories Vertically */
+            .memory { flex-direction: column !important; gap: 30px; margin-bottom: 80px; text-align: center; }
+            .memory:nth-child(even) { flex-direction: column !important; }
+            
+            .photo-frame { width: 100%; max-width: 320px; transform: rotate(0deg) !important; margin: 0 auto; }
+            .text-content { width: 100%; border-left: none; border-top: 3px solid var(--primary-color); }
+            
+            /* Adjust Ticket for Mobile */
+            .ticket { flex-direction: column; width: 90%; height: auto; }
+            .ticket-left { border-right: none; border-bottom: 2px dashed #ccc; padding: 20px; }
+            .ticket-right { padding: 20px; }
+            .ticket-left h2 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-hearts">
+        <span>❤️</span> <span>💖</span> <span>✨</span> <span>🌹</span> <span>❤️</span>
+    </div>
+
+    <div id="music-overlay">
+        <h1>Hey, I made something for you...</h1>
+        <button class="pulse-btn" onclick="startExperience()">Click to Open ❤️</button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="song.mp3" type="audio/mpeg">
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg"> 
+    </audio>
+
+    <section class="hero">
+        <h1 data-aos="zoom-in" data-aos-duration="1500">A trip down memory lane...</h1>
+        <p data-aos="fade-up" data-aos-delay="1000">Scroll down 👇</p>
+        <div class="timer-container" data-aos="fade-up" data-aos-delay="500">
+            <p>We've been together for:</p>
+            <div id="timer">Loading love...</div>
+        </div>
+        <div class="scroll-indicator">⌄</div>
+    </section>
+
+    <div class="memory-lane">
+        <div class="memory" data-aos="fade-right">
+            <div class="photo-frame">
+                <img src="images/1.JPG" alt="Memory">
+            </div>
+            <div class="text-content">
+                <h3>Our First Date</h3>
+                <p>Do you remember this day? I was so nervous, but your smile made everything perfect.</p>
+            </div>
+        </div>
+
+        <div class="memory" data-aos="fade-left">
+            <div class="photo-frame">
+                 <img src="images/2.JPG" alt="Memory">
+            </div>
+            <div class="text-content">
+                <h3>That Stupid Trip</h3>
+                <p>We got lost, it rained, and the food was bad. But it's still my favorite memory because I was with you.</p>
+            </div>
+        </div>
+
+        <div class="memory" data-aos="fade-right">
+            <div class="photo-frame">
+                 <img src="images/3.JPG" alt="Memory">
+            </div>
+            <div class="text-content">
+                <h3>Just Us</h3>
+                <p>Every day feels like an adventure with you. I wouldn't trade these moments for anything.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="final-question">
+        <h1 data-aos="zoom-in">So, I have a question...</h1>
+        <h2 id="typewriter-text" data-aos="fade-up" style="font-family: 'Great Vibes'; font-size: 5rem; color: #a4161a; min-height: 100px;"></h2>
+        
+        <div class="buttons">
+            <button class="yes-btn" onclick="acceptLove()">YES! 😍</button>
+            <button class="no-btn" id="noBtn" onmouseover="handleNoInteraction()" ontouchstart="handleNoInteraction()">No 😢</button>
+        </div>
+    </section>
+
+    <div id="success-overlay">
+        <div class="ticket-container">
+            <div class="ticket">
+                <div class="ticket-left">
+                    <h2>It's a Date! ❤️</h2>
+                    <div class="ticket-details">
+                        <p><span>Passenger:</span> Mrs. Sonali Aggarwal</p> 
+                        <p><span>Destination:</span> Somewhere Only We Know 🤫</p>
+                        <p><span>Date:</span> Feb 14, 2026</p>
+                        <p><span>Time:</span> 8:00 PM</p>
+                    </div>
+                </div>
+                <div class="ticket-right">
+                    <div class="barcode"></div>
+                    <p style="letter-spacing: 2px;">#LOVE2026</p>
+                </div>
+            </div>
+            <p style="color: white; margin-top: 20px; font-style: italic; text-align: center;">Screenshot this ticket! (I'll pick you up) 🚗</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // Init AOS
+        AOS.init();
+
+        // 1. Intro Screen
+        function startExperience() {
+            document.getElementById('music-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('music-overlay').style.display = 'none';
+            }, 500);
+            
+            var music = document.getElementById('bg-music');
+            music.volume = 0.5;
+            music.play().catch(e => console.log("Audio play failed"));
+        }
+
+        // 2. No Button Logic
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.querySelector('.yes-btn');
+        const messages = ["No 😢", "Are you sure?", "Really?", "Don't break my heart!", "Okay, crying now...", "Catch me!"];
+        let msgIndex = 0;
+        let yesScale = 1;
+
+        function handleNoInteraction() {
+            if (msgIndex < 5) {
+                msgIndex++;
+                noBtn.innerText = messages[msgIndex];
+                yesScale += 0.2;
+                yesBtn.style.transform = `scale(${yesScale})`;
+                noBtn.classList.remove('shake-anim');
+                void noBtn.offsetWidth; 
+                noBtn.classList.add('shake-anim');
+            } else {
+                noBtn.innerText = "Catch me! 🏃‍♂️";
+                const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+                const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${x}px`;
+                noBtn.style.top = `${y}px`;
+            }
+        }
+
+        // 3. Success Logic
+        function acceptLove() {
+            // UI Update
+            noBtn.style.display = 'none';
+            yesBtn.innerHTML = "See you there! ❤️";
+            yesBtn.style.transform = "scale(1.5)";
+            yesBtn.style.background = "#2ecc71";
+
+            // TICKET LOGIC (Moved to top to guarantee execution)
+            setTimeout(() => {
+                const overlay = document.getElementById('success-overlay');
+                overlay.style.display = 'flex'; 
+                void overlay.offsetWidth; // Force Reflow
+                overlay.classList.add('visible'); 
+            }, 1000);
+
+            // CONFETTI LOGIC
+            try {
+                // Heart SVG Path
+                var heartPath = 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 76,-75 38,0 57,18 75,56z';
+                
+                var heart = confetti.shapeFromPath({
+                    path: heartPath,
+                    matrix: [0.03333333333333333, 0, 0, 0.03333333333333333, -5.5, -5.5]
+                });
+
+                confetti({
+                    shapes: [heart],
+                    colors: ['#FF0000', '#D30056', '#FF69B4'],
+                    particleCount: 80,
+                    spread: 120,
+                    startVelocity: 60,
+                    origin: { y: 0.6 },
+                    scalar: 2,
+                    zIndex: 99999
+                });
+            } catch(e) {
+                console.log("Confetti Error:", e);
+            }
+        }
+
+        // 4. Timer
+        const startDate = new Date("2024-01-13"); 
+        function updateTimer() {
+            const diff = new Date() - startDate;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / 1000 / 60) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            document.getElementById("timer").innerText = `${d} Days, ${h} Hours, ${m} Mins, ${s} Secs`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 5. Typewriter
+        const text = "Will you be my Valentine?";
+        const typeEl = document.getElementById("typewriter-text");
+        let idx = 0;
+        const observer = new IntersectionObserver(e => {
+            if(e[0].isIntersecting) {
+                const type = () => {
+                    if(idx < text.length) {
+                        typeEl.innerHTML += text.charAt(idx);
+                        idx++;
+                        setTimeout(type, 100);
+                    }
+                };
+                type();
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.querySelector('.final-question'));
+    </script>
+</body>
+</html>
